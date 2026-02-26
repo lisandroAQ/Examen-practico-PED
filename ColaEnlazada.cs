@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Examen_practico_PED
 {
-    public class Cola
+    public class ColaEnlazada
     {
         //Atributos
         //Punteros que señalan el inicio y el final de nodos en cola
@@ -15,7 +15,7 @@ namespace Examen_practico_PED
         int totalNodos; //Almacena todos los nodos existentes
 
         //Metodos
-        public Cola()//Metodo Constructor
+        public ColaEnlazada()//Metodo Constructor
         {
             primero = ultimo = null;
             totalNodos = 0;
@@ -32,26 +32,27 @@ namespace Examen_practico_PED
             else return false;//cola tiene al menos un nodo
         }
 
-        public void VerContenido() 
+        public string MostrarTodos()
         {
-            //Recorre los nodos de la cola y los muestra en pantalla
-            NodoCola aux; //permitira señalar a cada nodo dentro de cola
-            if (EstaVacia())
+            if (EstaVacia()) return "Cola vacía.";
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("=== Lista de espera ===");
+            NodoCola aux = primero;
+            int turno = 1;
+
+            while (aux != null)
             {
-                Console.WriteLine("\nCola esta vacia, no tiene nodos");
+                if (turno == 1)
+                    sb.AppendLine(turno + ". " + aux.info + "   <--- Siguiente en ser atendido");
+                else
+                    sb.AppendLine(turno + ". " + aux.info);
+
+                aux = aux.sig;
+                turno++;
             }
-            else 
-            {
-                //Aplicacion de algoritmo FIFO (primero que entra primero que sale)
-                Console.Write("\n PIMERO");
-                aux = primero;
-                do
-                {
-                    Console.Write("<- {0} ", aux.info);
-                    aux = aux.sig;// se desplaza el puntero al siguiente nodo
-                } while (aux != null);
-                Console.WriteLine(" <- ULTIMO");
-            }
+
+            return sb.ToString();
         }
 
         public void Encolar(NodoCola nodo) 
@@ -67,6 +68,7 @@ namespace Examen_practico_PED
             }
             totalNodos++; // incrementa conteo nodos existentes
         }
+      
 
         public NodoCola Desencolar() 
         {
@@ -79,6 +81,13 @@ namespace Examen_practico_PED
                 totalNodos--; // reduce conteo de nodos existentes
             }
             return aux;
+        }
+        public NodoCola Primero() => primero;
+        public void Limpiar()
+        {
+            primero = null;
+            ultimo = null;
+            totalNodos = 0;
         }
     }
 }
