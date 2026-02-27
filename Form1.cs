@@ -32,12 +32,16 @@ namespace Examen_practico_PED
                 txtNombre.Focus();
                 return;
             }
+            else 
+            {
+                ColaAuxiliar.Encolar(new NodoCola(valor));
+                ActualizarContador();
+                txtNombre.Clear();
+                txtNombre.Focus();
+                panelCola.Invalidate(); // Redibujar
+            }
 
-            ColaAuxiliar.Encolar(new NodoCola(valor));
-            ActualizarContador();
-            txtNombre.Clear();
-            txtNombre.Focus();
-            panelCola.Invalidate(); // Redibujar
+            
         }
 
         // ── Botón Atender siguiente ──────────────────────────────────────
@@ -63,9 +67,11 @@ namespace Examen_practico_PED
                 MessageBox.Show("La cola está vacía.", "Lista de espera", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-
-            string lista = ColaAuxiliar.MostrarTodos();
-            MessageBox.Show(lista, "Lista de espera", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else 
+            {
+                string lista = ColaAuxiliar.MostrarTodos();
+                MessageBox.Show(lista, "Lista de espera", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void ActualizarContador()
